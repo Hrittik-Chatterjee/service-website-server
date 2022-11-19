@@ -16,13 +16,6 @@ app.get('/', (req, res) => {
     res.send('simple node server running')
 })
 
-// console.log(process.env.DB_USER)
-// console.log(process.env.DB_PASSWORD)
-// username: dbService1
-// password: dKhqHtxdECUaE0ze
-
-
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.7isjbqc.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -52,12 +45,6 @@ async function run() {
 }
 
 run().catch(err => console.log(err))
-
-
-
-
-
-
 
 app.listen(port, () => {
     console.log(`simple node server running ${port}`)
