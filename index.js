@@ -37,7 +37,14 @@ async function run() {
             const service = await serviceCollection.findOne(query)
             res.send(service)
         })
-
+        
+        app.get('/limited', async(req, res) => {
+            const query = {};
+            // sort in descending (-1) order by length
+            const cursor = serviceCollection.find(query).limit(3);
+            const limited=await cursor.toArray();
+            res.send(limited)
+        })
     }
     finally {
 
