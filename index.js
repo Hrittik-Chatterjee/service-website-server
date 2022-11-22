@@ -24,6 +24,7 @@ async function run() {
 
     try {
         const serviceCollection = client.db('doctorService').collection('services')
+        const reviewCollection = client.db('doctorService').collection('reviews')
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = serviceCollection.find(query)
@@ -44,6 +45,12 @@ async function run() {
             const cursor = serviceCollection.find(query).limit(3);
             const limited=await cursor.toArray();
             res.send(limited)
+        })
+
+        //reviews api
+
+        app.post ('/orders', async(req,res)=>{
+            const order =req.body
         })
     }
     finally {
