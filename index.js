@@ -25,6 +25,7 @@ async function run() {
     try {
         const serviceCollection = client.db('doctorService').collection('services')
         const reviewCollection = client.db('doctorService').collection('reviews')
+        const orderCollection = client.db('doctorService').collection('orders')
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = serviceCollection.find(query)
@@ -77,6 +78,27 @@ async function run() {
             const result = await reviewCollection.insertOne(review)
             res.send(result)
             
+        })
+
+
+        // orders api
+        app.get('/orders', async (req, res)=>{
+            let query={}
+            if(req.query.email){
+                query={
+                   email: req.query.email
+                }
+            }
+            const cursor = orderCollection.find(query)
+            const orders= await cursor.toArray()
+            res.send(orders)
+        })
+
+
+        app.post('/orders',async(req,res)=>{
+            const order = req.body
+            const resultorders = await orderCollection.insertOne(order)
+            res.send(resultorders)
         })
     }
     finally {
