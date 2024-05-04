@@ -26,6 +26,8 @@ async function run() {
     const serviceCollection = client.db("doctorService").collection("services");
     const reviewCollection = client.db("doctorService").collection("reviews");
     const orderCollection = client.db("doctorService").collection("orders");
+    const slots = client.db("doctorService").collection("slots");
+    const bookings = client.db("doctorService").collection("bookings");
     app.get("/services", async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
@@ -96,7 +98,24 @@ async function run() {
       const resultorders = await orderCollection.insertOne(order);
       res.send(resultorders);
     });
-    console.log("hello");
+    app.get("/slots", async (req, res) => {
+      const query = {};
+      const options = await slots.find(query).toArray();
+      res.send(options);
+    });
+
+    app.post("/bookings", async (req, res) => {
+      const booking = req.body;
+      console.log(booking);
+      const result = await bookings.insertOne(booking);
+      res.send(result);
+    });
+
+    app.get("/bookings", async (req, res) => {
+      const query = {};
+      const options = await bookings.find(query).toArray();
+      res.send(options);
+    });
   } finally {
   }
 }
