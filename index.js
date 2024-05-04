@@ -23,81 +23,12 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    const serviceCollection = client.db("doctorService").collection("services");
-    const reviewCollection = client.db("doctorService").collection("reviews");
-    const orderCollection = client.db("doctorService").collection("orders");
+    // const serviceCollection = client.db("doctorService").collection("services");
+    // const reviewCollection = client.db("doctorService").collection("reviews");
+    // const orderCollection = client.db("doctorService").collection("orders");
     const slots = client.db("doctorService").collection("slots");
     const bookings = client.db("doctorService").collection("bookings");
-    app.get("/services", async (req, res) => {
-      const query = {};
-      const cursor = serviceCollection.find(query);
-      const services = await cursor.toArray();
-      res.send(services);
-    });
 
-    app.get("/services/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const service = await serviceCollection.findOne(query);
-      res.send(service);
-    });
-
-    app.get("/limited", async (req, res) => {
-      const query = {};
-      // sort in descending (-1) order by length
-      const cursor = serviceCollection.find(query).limit(3);
-      const limited = await cursor.toArray();
-      res.send(limited);
-    });
-
-    //reviews api
-    app.get("/reviews", async (req, res) => {
-      let query = {};
-      if (req.query.email) {
-        query = {
-          email: req.query.email,
-        };
-      }
-      const cursor = reviewCollection.find(query);
-      const reviews = await cursor.toArray();
-      res.send(reviews);
-    });
-    app.get("/reviews", async (req, res) => {
-      let query = {};
-      if (req.query.service) {
-        query = {
-          service: req.query.service,
-        };
-      }
-      const cursor = reviewCollection.find(query);
-      const reviews = await cursor.toArray();
-      res.send(reviews);
-    });
-
-    app.post("/reviews", async (req, res) => {
-      const review = req.body;
-      const result = await reviewCollection.insertOne(review);
-      res.send(result);
-    });
-
-    // orders api
-    app.get("/orders", async (req, res) => {
-      let query = {};
-      if (req.query.email) {
-        query = {
-          email: req.query.email,
-        };
-      }
-      const cursor = orderCollection.find(query);
-      const orders = await cursor.toArray();
-      res.send(orders);
-    });
-
-    app.post("/orders", async (req, res) => {
-      const order = req.body;
-      const resultorders = await orderCollection.insertOne(order);
-      res.send(resultorders);
-    });
     app.get("/slots", async (req, res) => {
       const query = {};
       const options = await slots.find(query).toArray();
